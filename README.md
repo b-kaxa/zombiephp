@@ -5,7 +5,6 @@
 * Ansible 1.9.4
 * VirtualBox 4.3.34
 
-## How to Setup
-* `git clone git@github.com:b-kaxa/zombiephp.git`
-* `cd zombiephp`
-* `./run.sh`
+## Setup
+* `git clone git@github.com:b-kaxa/zombiephp.git && cd zombiephp && ./run.sh`
+* then, you can get php6-env !
