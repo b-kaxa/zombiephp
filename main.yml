@@ -1,0 +1,58 @@
+---
+- hosts: 192.168.33.11
+  user: vagrant
+  sudo: yes
+
+  vars:
+    home_dir: /home/vagrant
+
+  tasks:
+    - name: apt-get update
+      apt: update_cache=yes
+    
+    - name: apt-get install 
+      apt: pkg={{ item }}
+      with_items:
+        - g++
+        - libxml2-dev
+        - libreadline6-dev
+    
+    - name: download php6
+      get_url: url=ftp://ftp.ovh.net/made-in-ovh/maj-ovh/php6.0-200904071030.tar.gz dest={{home_dir}}
+
+    - name: download icu
+      get_url: url=http://download.icu-project.org/files/icu4c/56.1/icu4c-56_1-src.tgz dest={{home_dir}}
+    
+    - name: unarchive source php6
+      command: tar zxvf {{home_dir}}/php6.0-200904071030.tar.gz
+
+    - name: unarchive source icu
+      command: tar zxvf {{home_dir}}/icu4c-56_1-src.tgz
+
+    - name: rename dir
+      command: mv {{home_dir}}/php6.0-200904071030 {{home_dir}}/php6
+
+    - name: configure icu
+      command: chdir={{home_dir}}/icu/source/ ./configure
+
+    - name: make icu
+      command: chdir={{home_dir}}/icu/source/ make
+
+    - name: make install icu
+      command: chdir={{home_dir}}/icu/source/ make install
+
+    - name: configure php6
+      command: chdir={{home_dir}}/php6/ ./configure --with-readline
+
+    - name: make php6
+      command: chdir={{home_dir}}/php6/ make
+
+    - name: make install php6
+      command: chdir={{home_dir}}/php6/ make install
+
+    - name: verify php version
+      command: php /vagrant/success.php
+      register: new_php_version
+      always_run: yes
+
+    - debug: var=new_php_version.stdout_lines
