@@ -6,5 +6,6 @@
 * VirtualBox 4.3.34
 
 ## How to Setup
-* `git clone`
-
+* `git clone git@github.com:b-kaxa/zombiephp.git`
+* `cd zombiephp`
+* `./run.sh`
