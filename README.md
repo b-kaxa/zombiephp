@@ -1,4 +1,5 @@
 # zombiephp
+this is a joke repository.
 
 ## require?
 * Vagrant 1.7.2
